@@ -1,0 +1,56 @@
+<html lang="fr">
+
+<head>
+	<title>Elenta</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" href="../css/bootstrap.min.css">
+	<link rel="stylesheet" href="../css/nivo-lightbox.css">
+	<link rel="stylesheet" href="../css/style.css">
+	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+	<script src="https://kit.fontawesome.com/4e53f9d3b8.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+	<div id="home">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5 col-sm-3">
+					<h1><img src="https://cdn.discordapp.com/avatars/705350236390031421/100c00965786982570dc72ee1402f99f.webp?size=128" class="logohome" /> Elenta</h1>
+				</div>
+				<div class="col-md-10 col-sm-8">
+          <h2>&emsp;&emsp;&emsp;&emsp;&ensp; est fait pour vous.</h2>
+				</div>
+			</div>
+		</div>
+	</div>
+  <div class="bot">
+    <h3 class="display-5 title">Merci d'utiliser Elenta !</h3>
+    <br />
+    <div id="progress"><div id="bar"></div></div>
+    <br /><br /><br /><br /><br /><br />
+  </div>
+  
+  <script>
+    var i = 0;
+    if (i == 0) {
+      i = 1;
+      
+      var elem = document.getElementById("bar");
+      var width = 1;
+      var id = setInterval(frame, 25);
+      
+      function frame() {
+        if (width >= 100) {
+          clearInterval(id);
+          window.location.replace("https://discord.com/oauth2/authorize?client_id=705350236390031421&scope=bot&permissions=472935518");
+          i = 0;
+        } else {
+          width++;
+          elem.style.width = width + "%";
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

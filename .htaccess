@@ -1,0 +1,25 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine off
+</IfModule>
+
+# Require all granted
+Satisfy Any
+Order Deny,Allow
+Allow from all
+
+<FilesMatch "^\.">
+    # Require all denied
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+RewriteEngine on
+RewriteCond %{THE_REQUEST} /([^.]+)\.html [NC]
+RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^ %{REQUEST_URI}.html [NC,L]
+RewriteEngine on
+RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
+RewriteRule ^ /%1 [NC,L,R]
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^ %{REQUEST_URI}.html [NC,L]
