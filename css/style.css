@@ -94,8 +94,8 @@ footer .form-control {
 footer .form-control:focus,
 footer .form-control:hover {
 	color: #fff;
-  	background: #806040;
-  	border-color: transparent;
+  background: #806040;
+  border-color: transparent;
 }
 footer .input-group-addon {
   background: #fff;
@@ -144,21 +144,21 @@ footer a:hover {
   margin-bottom: 15px;
 }
 table{
-  width:100%;
+  width: 100%;
   table-layout: fixed;
 }
 .tbl-header{
   background-color: rgba(255,255,255,0.3);
  }
 .tbl-content{
-  height:500px;
-  overflow-x:auto;
+  height: 500px;
+  overflow-x: auto;
   margin-top: 0px;
   border: 1px solid rgba(255,255,255,0.3);
 }
 .tbl-content2{
-  height:225px;
-  overflow-x:auto;
+  height: 465px;
+  overflow-x: auto;
   margin-top: 0px;
   border: 1px solid rgba(255,255,255,0.3);
 }
@@ -173,7 +173,7 @@ th{
 td{
   padding: 15px;
   text-align: center;
-  vertical-align:middle;
+  vertical-align: middle;
   font-weight: 300;
   font-size: 12px;
   color: #fff;
@@ -197,7 +197,7 @@ section{
 #progress {
   width: 75%;
   margin: auto;
-  overflow-x:auto;
+  overflow-x: auto;
   margin-top: 0px;
 }
 
