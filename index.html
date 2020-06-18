@@ -8,13 +8,10 @@
 	<link rel="stylesheet" href="css/nivo-lightbox.css">
 	<link rel="stylesheet" href="css/style.css">
 	<link rel="stylesheet" href="css/load.css">
-	<link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/css/styles.css">
-	<link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/fontawesome/js/all.js">
-	<link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/prism/prism.css">
-	<link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/elegant_font/css/style.css">
+	<link href="https://vjs.zencdn.net/7.8.2/video-js.css" rel="stylesheet" />
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 	<script src="https://kit.fontawesome.com/4e53f9d3b8.js" crossorigin="anonymous"></script>
+	<script src="https://vjs.zencdn.net/ie8/1.1.2/videojs-ie8.min.js"></script>
 </head>
 
 <body>
@@ -211,18 +208,26 @@
     </table>
   </div>
 </section>
-	<section id="video-section" class="doc-section">
-          <h2 class="section-title">Video</h2>
-          <div class="section-block">
-            <div class="row">
-              <div class="col-md-6 col-12">
-                <div class="embed-responsive embed-responsive-16by9">
-                  <iframe class="embed-responsive-item" src="Tuto.mp4" frameborder="0" allowfullscreen></iframe>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+	<video
+    id="my-video"
+    class="video-js"
+    controls
+    preload="auto"
+    width="640"
+    height="264"
+    poster="MY_VIDEO_POSTER.jpg"
+    data-setup="{}"
+  >
+    <source src="MY_VIDEO.mp4" type="video/mp4" />
+    <source src="MY_VIDEO.webm" type="video/webm" />
+    <p class="vjs-no-js">
+      To view this video please enable JavaScript, and consider upgrading to a
+      web browser that
+      <a href="https://videojs.com/html5-video-support/" target="_blank"
+        >supports HTML5 video</a
+      >
+    </p>
+  </video>
 	<footer>
 		<div class="container">
 			<div class="row">
@@ -256,12 +261,7 @@
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="js/main.js"></script>
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/js/main.js">
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/bootstrap/js/bootstrap.min.js">
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/jquery-3.4.1.min.js">
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/prism/prism.js">
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/jquery-scrollTo/jquery.scrollTo.min.js">
-  <link rel="stylesheet" href="https://raw.githubusercontent.com/xriley/PrettyDocs-Theme/master/assets/plugins/stickyfill/dist/stickyfill.min.js">
+  <script src="https://vjs.zencdn.net/7.8.2/video.js"></script>
 </body>
 
 </html>
