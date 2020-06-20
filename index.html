@@ -208,19 +208,19 @@
     </table>
   </div>
 </section>
-<figure class="video-player">
-  <video preload="none" width="1280" height="720" autoplay="none">
-    <source src="Tuto.mp4" type="video/mp4" />
-  </video>
-  <button class="play-toggle">Toggle play</button>
-  <button class="mute-toggle">Toggle mute</button>
-</figure>
-<script>
-  // Initialize video player
-  new VideoPlayer({
-    element: document.querySelector('.video-player')
-  });
-</script>
+<section id="video-section" class="doc-section">
+                                <h2 class="section-title">Video</h2>
+                                <div class="section-block">
+                                    <div class="row">
+                                        <div class="col-md-6 col-12">
+                                            <h6>Responsive Video 16:9</h6>
+                                            <div class="embed-responsive embed-responsive-16by9">
+                                                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ilYBnOx3Buo?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
 	<footer>
 		<div class="container">
 			<div class="row">
@@ -254,59 +254,6 @@
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
   <script src="js/main.js"></script>
-  <script>
-	/**
-* A simple video player.
-* @author Jayden Seric
-* @param  {Object}      options                  - Options object.
-* @param  {HTMLElement} options.element          - Container.
-* @param  {string}      [options.playClass=play] - Container class name when video is playing.
-* @param  {string}      [options.muteClass=mute] - Container class name when video is mute.
-*/
-function VideoPlayer(options) {
-  var self = this;
-  // Options
-  self.element   = options.element;
-  self.playClass = options.playClass || 'play';
-  self.muteClass = options.muteClass || 'mute';
-  // Derived
-  self.video            = element.querySelector('video');
-  self.playToggleButton = element.querySelector('.play-toggle');
-  self.muteToggleButton = element.querySelector('.mute-toggle');
-  // Handle play
-  self.video.addEventListener('play', function() {
-    self.classList.add(self.playClass);
-  });
-  // Handle pause
-  self.video.addEventListener('pause', function() {
-    self.classList.remove(self.playClass);
-  });
-  // Handle mute
-  self.video.addEventListener('volumechange', function() {
-    if (self.video.muted) self.element.classList.add(self.muteClass);
-    else self.element.classList.remove(self.muteClass);
-  });
-  // Enable play toggle button
-  self.playToggleButton.addEventListener('click', function() { self.togglePlay() });
-  // Enable mute toggle button
-  self.muteToggleButton.addEventListener('click', function() { self.toggleMute() });
-}
-
-/**
- * Toggles video play/pause.
- */
-VideoPlayer.prototype.togglePlay = function() {
-  if (this.video.paused) this.video.play();
-  else this.video.pause();
-};
-
-/**
- * Toggles video mute/unmute.
- */
-VideoPlayer.prototype.toggleMute = function() {
-  this.video.muted = !this.video.muted;
-};
-  </script>
 </body>
 
 </html>
