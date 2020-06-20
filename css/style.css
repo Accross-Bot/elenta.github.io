@@ -197,5 +197,5 @@ section{
 .videosectionplayer {
 	text-align: center;
 	display: inline-block;
-	margin: center;
+	width: 100%;
 }
