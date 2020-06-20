@@ -209,21 +209,49 @@
     </table>
   </div>
 </section>
-	<video
-    id="my-video"
-    class="video-js"
-    controls
-    preload="auto"
-    width="640"
-    height="264"
-    data-setup="{}"
-  >
-    <source src="Tuto.mp4" type="video/mp4" />
-    <p class="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a
-      web browser that supports HTML5 video
-    </p>
-  </video>
+	<div class="video-column">
+        <div class="video-player">
+          <button id="btnReplay" class="btn-replay"><span class="fontawesome-refresh"></span></button>
+
+          <video id="video" class="video" src="https://raw.githubusercontent.com/Accross-Bot/elenta.github.io/master/Tuto.mp4" type="video/mp4" poster="https://s3-us-west-2.amazonaws.com/s.cdpn.io/197359/caminandes-1.jpg" preload="none">
+                        </video>
+
+          <div class="video-controls">
+
+            <button id="btnState"><span class="fontawesome-play"></span></button>
+
+            <span id="timePlayed">00:00</span>
+
+            <!-- Seeker + progress bar -->
+            <div class="video-bars">
+              <input type="range" id="barSeeker" class="bar-seeker" value="0" min="0" max="100" step="0.1">
+              <progress value="0" max="100" step="0.1" id="barProgress" class="bar-progress"></progress>
+              <progress value="0" max="100" step="0.1" id="barBuffer" class="bar-buffer"></progress>
+            </div>
+
+            <div id="timeBubble" class="time-bubble">00:00</div>
+
+            <span id="timeDuration">00:00</span>
+
+            <button id="btnSound" class="btn-sound"><span class="fontawesome-volume-up"></span></button>
+            <input type="range" id="sliderVolume" class="slider-volume" value="10" min="0" max="10">
+
+          </div>
+
+        </div>
+
+        <div class="video-info">
+
+          <p class="video-popularity">
+            <span class="views">394,7304 views <span class="fontawesome-eye-open meta-icon"></span>
+            <span class="likes">97,349 likes <a href="#" id="likeThis" class="like-this"><span class="fontawesome-heart meta-icon like-heart"></span></a><span class="like-prompt">Don't forget to like!</span></span>
+          </p>
+
+          <div class="description">
+            <p>Caminandes: Episode 2 is an Open Movie produced by Blender Institute in Amsterdam, the Netherlands. You can support the makers and open source projects by purchasing the 8 GB USB card with all the movie data and tutorials.</p>
+          </div>
+        </div>
+      </div>
 	<footer>
 		<div class="container">
 			<div class="row">
