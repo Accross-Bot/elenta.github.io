@@ -11,207 +11,120 @@ jQuery(document).ready(function($) {
   }
 });
 
-var videoPlayer = function(){
-    "use strict";
+var videoPlayer = document.getElementById('video__player'),
+  videoFullScreen = document.getElementById('video__fullScreen'),
+  videoPlay = document.getElementById('video__play'),
+  videoPause = document.getElementById('video__pause'),
+  videoEnd = document.getElementById('video__end'),
+  videoStart = document.getElementById('video__start'),
+  videoTime = document.getElementById('video__duration'),
+  videoTrack = document.getElementById('video__track'),
+  videoSound = document.getElementById('video__sound'),
+  soundTrack = document.getElementById('sound__track'),
+  videoSoundIcon = videoSound.querySelectorAll('use')[0],
+  videoDuration = 0,
+  actualMoment = 0,
+  updateVolume;
 
-    function el(id) {
-        return document.getElementById(id);
-    }
+videoPlayer.addEventListener('loadedmetadata', function() {
+  videoDuration = Math.round(videoPlayer.duration);
+  videoTrack.setAttribute('max', videoDuration);
+});
 
-    var vid = el("video"),
+videoSound.addEventListener('click', function() {
+  if (soundTrack.value == 0) {
+    controlVolumeStatus(1);
+    soundTrack.value = 10;
+  } else {
+    controlVolumeStatus(0);
+    soundTrack.value = 0;
+  }
+});
 
-        btnState = el("btnState"),
-        btnReplay = el("btnReplay"),
-        btnSound = el("btnSound"),
-        sliderVolume = el("sliderVolume"),
+videoPlay.addEventListener('click', function() {
+  videoPlayer.play();
+});
+videoPause.addEventListener('click', function() {
+  videoPlayer.pause();
+});
+videoStart.addEventListener('click', function() {
+  videoPlayer.pause();
+  videoPlayer.currentTime = 0;
+  videoTrack.value = 0;
+});
+videoEnd.addEventListener('click', function() {
+  videoPlayer.pause();
+  videoPlayer.currentTime = videoDuration - 1;
+  videoTrack.value = videoDuration - 1;
+});
+videoFullScreen.addEventListener('click', function() {
+  if (videoPlayer.requestFullscreen) {
+    videoPlayer.requestFullscreen();
+  } else if (videoPlayer.mozRequestFullScreen) {
+    videoPlayer.mozRequestFullScreen(); // Firefox
+  } else if (videoPlayer.webkitRequestFullscreen) {
+    videoPlayer.webkitRequestFullscreen(); // Chrome and Safari
+  }
+});
 
-        barSeeker = el("barSeeker"),
-        barBuffer = el("barBuffer"),
-        barProgress = el("barProgress"),
+videoTrack.addEventListener('change', function() {
+  videoPlayer.currentTime = this.value;
+});
 
-        timePlayed = el("timePlayed"),
-        timeDuration = el("timeDuration"),
-        timeBubble = el("timeBubble"),
+updateVolume = function() {
+  window.requestAnimationFrame(function() {
+    controlVolumeStatus(soundTrack.value / 10);
+  });
+};
 
-        thePosition,
-        theMinutes,
-        theSeconds,
-        theTime;
+soundTrack.addEventListener("mousedown", function() {
+  updateVolume();
+  soundTrack.addEventListener("mousemove", updateVolume);
+});
+soundTrack.addEventListener("mouseup", function() {
+  soundTrack.removeEventListener("mousemove", updateVolume);
+});
 
-    var readableTime = function(t) {
-        theMinutes = "0" + Math.floor(t / 60); // Divide seconds to get minutes, add leading zero
-        theSeconds = "0" + parseInt(t % 60); // Get remainder seconds
-        theTime = theMinutes.slice(-2) + ":" + theSeconds.slice(-2); // Slice to two spots to remove excess zeros
-        return theTime;
-    };
+videoPlayer.addEventListener('timeupdate', function() {
+  videoTrack.value = videoPlayer.currentTime;
+  videoTime.innerHTML = controlTimeFormat(videoPlayer.currentTime);
+  if (Math.round(videoPlayer.currentTime) === videoDuration) {
+    setTimeout(function() {
+      videoPlayer.currentTime = 0;
+      videoTrack.value = 0;
+      videoPlayer.pause();
+    }, 1000);
+  }
+});
 
-    /* Video controls */
+function controlTimeFormat(ms) {
+  var hr = Math.floor(ms / 3600),
+    min = Math.floor((ms - (hr * 3600)) / 60),
+    sec = Math.floor(ms - (hr * 3600) - (min * 60));
 
-    var togglePlay = function(){
-        if(vid.paused) {
-            vid.play();
-            btnState.firstElementChild.className = "fontawesome-pause";
-            btnReplay.style.display = "none";
-            vid.style.opacity = 1;
-        } else {
-            vid.pause();
-            btnState.firstElementChild.className = "fontawesome-play";
-        }
-    };
+  if (min < 10) {
+    min = "0" + min;
+  }
+  if (sec < 10) {
+    sec = "0" + sec;
+  }
+  if (hr < 10) {
+    hr = "0" + hr;
+  }
 
-    var toggleSound = function(){
-        if(vid.muted) {
-            vid.muted = false;
-            sliderVolume.value = 10;
-            btnSound.firstElementChild.className = "fontawesome-volume-up";
-        } else {
-            vid.muted = true;
-            sliderVolume.value = 0;
-            btnSound.firstElementChild.className = "fontawesome-volume-off";
-        }
-    };
+  return hr + ':' + min + ':' + sec;
+}
 
-    /* Update seeker value and time played */
-    var updateTimeDisplay = function() {
-        var timePercent = (100 / vid.duration) * vid.currentTime;
-        barSeeker.value = timePercent;
-        barProgress.value = timePercent;
-        timePlayed.innerHTML = readableTime(vid.currentTime);
-    };
+function controlVolumeStatus(val) {
+  videoPlayer.volume = val;
+  console.log(videoPlayer.volume);
+  if (val === 0) {
+    videoSoundIcon.setAttribute('xlink:href', '#i-mute');
+  } else {
+    videoSoundIcon.setAttribute('xlink:href', '#i-volume');
+  }
+}
 
-    var replayVideo = function() {
-        vid.currentTime = 0;
-        btnState.firstElementChild.className = "fontawesome-pause";
-        el("likeThis").classList.remove("wiggle");
-        btnReplay.style.display = "none";
-        vid.play();
-    };
-
-    /* Event listeners */
-
-    // Toggle buttons
-    vid.addEventListener("click",togglePlay);
-    btnState.addEventListener("click",togglePlay);
-    btnSound.addEventListener("click",toggleSound);
-
-    // Volume slider
-    sliderVolume.addEventListener("change", function() {
-        var theVolume = sliderVolume.value / 10;
-        vid.volume = theVolume;
-
-        if(theVolume === 0) {
-            btnSound.firstElementChild.className = "fontawesome-volume-off";
-        } else if (theVolume === 1) {
-            btnSound.firstElementChild.className = "fontawesome-volume-up";
-        } else {
-            btnSound.firstElementChild.className = "fontawesome-volume-down";
-        }
-    });
-
-    // Replay button, something needs fixing, but I forget what
-    vid.addEventListener("ended", function(){
-        btnReplay.style.display = "block";
-        btnState.firstElementChild.className = "fontawesome-play";
-    });
-
-
-    /* Event listeners for the seek bar */
-
-    // Move seeker bar
-    vid.addEventListener("timeupdate",updateTimeDisplay);
-
-    // Allow click on seeker to change video position
-    barSeeker.addEventListener("change", function() {
-        thePosition = vid.duration * (barSeeker.value / 100);
-        vid.currentTime = thePosition;
-    });
-
-    // Pause video and seeker update while seeker is being interacted with
-    barSeeker.addEventListener("mousedown",function(){
-        vid.pause();
-        vid.removeEventListener("timeupdate",updateTimeDisplay);
-    });
-
-    barSeeker.addEventListener("mouseup",function(){
-        vid.play();
-        btnState.firstElementChild.className = "fontawesome-pause";
-        vid.addEventListener("timeupdate",updateTimeDisplay);
-    });
-
-    // Buffer bar
-    vid.addEventListener("timeupdate", function() {
-        var bufferPercent = (100 / vid.duration) * vid.buffered.end(vid.buffered.length - 1);
-        barBuffer.value = bufferPercent;
-    });
-
-    // Video length
-    vid.addEventListener('loadeddata', function(){
-        timeDuration.innerHTML = readableTime(vid.duration);
-    });
-
-    // Time bubble on seeker
-    var bubblePop = function(e){
-        var cursorPos = (e.clientX - (barSeeker.getBoundingClientRect().left)) / (barSeeker.offsetWidth);
-        var seekTime = cursorPos * vid.duration;
-
-        if(seekTime) {
-            timeBubble.innerHTML = readableTime(seekTime);
-            timeBubble.style.left = (e.clientX - barSeeker.getBoundingClientRect().left + 78) + "px";
-            timeBubble.style.display = "block";
-        }
-    };
-
-    barSeeker.addEventListener("mousemove", bubblePop);
-
-    barSeeker.addEventListener("mouseout", function(){
-        timeBubble.style.display = "none";
-    });
-
-    vid.addEventListener("timeupdate", function(){
-        theTime = parseInt(vid.currentTime);
-        if(vid.duration - theTime < 10 && vid.duration - theTime > 9 ) {
-            el("likeThis").classList.add("wiggle");
-        }
-    });
-
-// Video playlist
-var playlistAnchor = document.querySelectorAll(".next-video"),
-    imageURL = document.querySelectorAll(".next-video img");
-
-var prevTitle = document.querySelector(".video-title"),
-    prevDescription = document.querySelector(".description");
-
-    for (var i = 0; i < 4; i++) {
-        (function(){
-            var k = i;
-
-            playlistAnchor[i].addEventListener("click", function(e){
-                e.preventDefault();
-
-                var playedVideo = document.querySelector(".played-video");
-                playedVideo.classList.remove("slide");
-                playedVideo.classList.remove("played-video");
-
-                // Update video
-                vid.poster = imageURL[k].src;
-                vid.src = playlistAnchor[k].href;
-
-                // Update info
-                prevTitle.innerHTML = this.querySelector(".next-video-title").textContent;
-                prevDescription.innerHTML = this.querySelector(".next-video-description").textContent;
-
-                // Reset and play video
-                replayVideo();
-
-                this.classList.add("played-video");
-                playedVideo.classList.add("slide");
-
-                setTimeout(function(){
-                    playlistAnchor[k].parentNode.appendChild(playlistAnchor[k]);
-                }, 500);
-            });
-
-        }());
-    }
-
-}();
+setTimeout(function() {
+  videoPlayer.pause();
+}, 500);
